@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CAMIs Lab @ UGA</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --red: #BA0C2F;
+    --black: #0a0a0a;
+    --off-white: #F5F3EE;
+    --warm-gray: #E8E5DC;
+    --mid-gray: #9A9890;
+    --text: #1a1a18;
+    --serif: 'DM Serif Display', Georgia, serif;
+    --sans: 'Outfit', system-ui, sans-serif;
+    --mono: 'DM Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--off-white);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 3rem;
+    height: 64px;
+    background: var(--off-white);
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    backdrop-filter: blur(8px);
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    text-decoration: none;
+  }
+
+  .nav-logo-mark {
+    font-family: var(--serif);
+    font-size: 1.3rem;
+    color: var(--red);
+    letter-spacing: -0.5px;
+  }
+
+  .nav-logo-sub {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--mid-gray);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text);
+    letter-spacing: 0.04em;
+    transition: color 0.2s;
+    position: relative;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -3px; left: 0; right: 100%;
+    height: 1.5px;
+    background: var(--red);
+    transition: right 0.25s ease;
+  }
+
+  .nav-links a:hover { color: var(--red); }
+  .nav-links a:hover::after { right: 0; }
+
+  /* HERO */
+  #home {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 64px;
+  }
+
+  .hero-left {
+    padding: 6rem 4rem 4rem 6rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2rem;
+  }
+
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--red);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .hero-title {
+    font-family: var(--serif);
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    line-height: 1.05;
+    color: var(--text);
+    font-weight: 400;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--red);
+  }
+
+  .hero-desc {
+    font-size: 1.05rem;
+    line-height: 1.75;
+    color: #3a3a36;
+    max-width: 480px;
+    font-weight: 300;
+  }
+
+  .hero-cta-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.75rem 1.75rem;
+    background: var(--red);
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .btn-primary:hover { background: #990a26; transform: translateY(-1px); }
+
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.75rem 1.75rem;
+    border: 1.5px solid var(--text);
+    color: var(--text);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .btn-outline:hover { border-color: var(--red); color: var(--red); }
+
+  .hero-address {
+    margin-top: auto;
+    padding-top: 3rem;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--mid-gray);
+    line-height: 1.8;
+    letter-spacing: 0.04em;
+  }
+
+  .hero-right {
+    background: var(--black);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 3rem;
+  }
+
+  .hero-grid-bg {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(186,12,47,0.08) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(186,12,47,0.08) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  .hero-stat-grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5px;
+    background: rgba(255,255,255,0.06);
+  }
+
+  .hero-stat {
+    background: rgba(0,0,0,0.6);
+    padding: 2rem 1.5rem;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .hero-stat-num {
+    font-family: var(--serif);
+    font-size: 2.8rem;
+    color: var(--red);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .hero-stat-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: rgba(255,255,255,0.55);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    line-height: 1.4;
+  }
+
+  .hero-accent-bar {
+    position: absolute;
+    top: 0; left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--red);
+  }
+
+  /* SECTION COMMON */
+  section {
+    padding: 7rem 6rem;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1.5rem;
+    margin-bottom: 4rem;
+  }
+
+  .section-num {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--red);
+    letter-spacing: 0.1em;
+  }
+
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 3.5vw, 3rem);
+    font-weight: 400;
+    color: var(--text);
+    flex: 1;
+  }
+
+  .section-rule {
+    flex: 1;
+    height: 1px;
+    background: rgba(0,0,0,0.12);
+    margin-left: 1rem;
+  }
+
+  /* RESEARCH */
+  #research {
+    background: var(--black);
+    color: #fff;
+    padding: 7rem 6rem;
+  }
+
+  #research .section-title { color: #fff; }
+  #research .section-rule { background: rgba(255,255,255,0.12); }
+  #research .section-num { color: var(--red); }
+
+  .research-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5px;
+    background: rgba(255,255,255,0.05);
+  }
+
+  .research-card {
+    background: #111;
+    padding: 2.5rem;
+    border: 1px solid rgba(255,255,255,0.04);
+    position: relative;
+    transition: background 0.25s;
+    cursor: default;
+  }
+
+  .research-card:hover { background: #161616; }
+
+  .research-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 0;
+    height: 3px;
+    background: var(--red);
+    transition: width 0.3s ease;
+  }
+
+  .research-card:hover::before { width: 100%; }
+
+  .research-tag {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 1.25rem;
+  }
+
+  .research-card-title {
+    font-family: var(--serif);
+    font-size: 1.25rem;
+    color: #fff;
+    line-height: 1.35;
+    font-weight: 400;
+    margin-bottom: 1rem;
+  }
+
+  .research-card-body {
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  /* PEOPLE */
+  #people {
+    background: var(--off-white);
+  }
+
+  .pi-block {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 5rem;
+    align-items: start;
+    margin-bottom: 6rem;
+    padding-bottom: 6rem;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+  }
+
+  .pi-photo-frame {
+    position: relative;
+  }
+
+  .pi-photo-placeholder {
+    width: 100%;
+    aspect-ratio: 3/4;
+    background: var(--black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--serif);
+    font-size: 4rem;
+    color: var(--red);
+    letter-spacing: -2px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .pi-photo-placeholder::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(186,12,47,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(186,12,47,0.06) 1px, transparent 1px);
+    background-size: 32px 32px;
+  }
+
+  .pi-photo-corner {
+    position: absolute;
+    bottom: -8px;
+    right: -8px;
+    width: 64px;
+    height: 64px;
+    border-right: 3px solid var(--red);
+    border-bottom: 3px solid var(--red);
+  }
+
+  .pi-name {
+    font-family: var(--serif);
+    font-size: 2.5rem;
+    font-weight: 400;
+    margin-bottom: 0.25rem;
+  }
+
+  .pi-title {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--red);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+  }
+
+  .pi-contact {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--mid-gray);
+    margin-bottom: 2rem;
+    text-decoration: none;
+    display: block;
+    transition: color 0.2s;
+  }
+
+  .pi-contact:hover { color: var(--red); }
+
+  .pi-bio {
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #3a3a36;
+    font-weight: 300;
+    margin-bottom: 2.5rem;
+    max-width: 600px;
+  }
+
+  .pi-section-label {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--mid-gray);
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+  }
+
+  .pi-interests {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .pi-tag {
+    font-size: 0.78rem;
+    padding: 0.35rem 0.9rem;
+    border: 1px solid rgba(0,0,0,0.2);
+    color: var(--text);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+
+  .edu-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+    align-items: flex-start;
+  }
+
+  .edu-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--red);
+    margin-top: 6px;
+    flex-shrink: 0;
+  }
+
+  .edu-text {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .edu-deg {
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .edu-school {
+    color: var(--mid-gray);
+    font-size: 0.82rem;
+  }
+
+  .edu-note {
+    font-size: 0.78rem;
+    color: var(--red);
+    font-style: italic;
+  }
+
+  /* TEACHING */
+  .teaching-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5px;
+    background: rgba(0,0,0,0.06);
+  }
+
+  .teaching-item {
+    background: var(--off-white);
+    padding: 1.75rem 2rem;
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  .course-code {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--red);
+    letter-spacing: 0.06em;
+    padding-top: 0.2rem;
+  }
+
+  .course-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .course-desc {
+    font-size: 0.82rem;
+    line-height: 1.65;
+    color: #5a5a55;
+    font-weight: 300;
+  }
+
+  /* HIRING */
+  .hiring-box {
+    background: var(--black);
+    color: #fff;
+    padding: 4rem 5rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 3rem;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    margin-top: 4rem;
+  }
+
+  .hiring-box::before {
+    content: 'HIRING';
+    position: absolute;
+    right: -1rem;
+    top: 50%;
+    transform: translateY(-50%) rotate(90deg);
+    font-family: var(--serif);
+    font-size: 8rem;
+    color: rgba(186,12,47,0.08);
+    letter-spacing: -4px;
+    user-select: none;
+    white-space: nowrap;
+  }
+
+  .hiring-title {
+    font-family: var(--serif);
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    font-weight: 400;
+  }
+
+  .hiring-desc {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.75;
+    max-width: 540px;
+    font-weight: 300;
+  }
+
+  /* FOOTER */
+  footer {
+    background: #0a0a0a;
+    color: rgba(255,255,255,0.4);
+    padding: 3rem 6rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    border-top: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .footer-logo {
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    color: var(--red);
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-left > * {
+    animation: fadeUp 0.6s ease both;
+  }
+  .hero-left > *:nth-child(1) { animation-delay: 0.1s; }
+  .hero-left > *:nth-child(2) { animation-delay: 0.2s; }
+  .hero-left > *:nth-child(3) { animation-delay: 0.3s; }
+  .hero-left > *:nth-child(4) { animation-delay: 0.4s; }
+  .hero-left > *:nth-child(5) { animation-delay: 0.5s; }
+
+  @media (max-width: 900px) {
+    nav { padding: 0 1.5rem; }
+    .nav-links { gap: 1.5rem; }
+    #home { grid-template-columns: 1fr; }
+    .hero-left { padding: 5rem 2rem 3rem; }
+    .hero-right { min-height: 360px; }
+    section { padding: 5rem 2rem; }
+    #research { padding: 5rem 2rem; }
+    .pi-block { grid-template-columns: 1fr; gap: 2rem; }
+    .pi-photo-placeholder { aspect-ratio: 4/3; max-width: 240px; }
+    .hiring-box { grid-template-columns: 1fr; padding: 2.5rem; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+    .teaching-item { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#home" class="nav-logo">
+    <span class="nav-logo-mark">CAMIs</span>
+    <span class="nav-logo-sub">Lab @ UGA</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#research">Research</a></li>
+    <li><a href="#people">People</a></li>
+    <li><a href="#teaching">Teaching</a></li>
+    <li><a href="#join">Join</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="home" style="padding:0;">
+  <div class="hero-left">
+    <span class="hero-eyebrow">Cooperative Automated Mobility Innovations</span>
+    <h1 class="hero-title">
+      Smarter<br>
+      <em>mobility</em><br>
+      for tomorrow
+    </h1>
+    <p class="hero-desc">
+      The CAMIs Lab at the University of Georgia advances knowledge and technologies that enhance transportation safety, sustainability, and efficiency — bridging data, theory, and real-world practice.
+    </p>
+    <div class="hero-cta-row">
+      <a href="#research" class="btn-primary">Explore Research &rarr;</a>
+      <a href="#join" class="btn-outline">Join the Lab</a>
+    </div>
+    <div class="hero-address">
+      Boyd Research & Education Center, Room 716B<br>
+      200 D.W. Brooks Drive · Athens, GA 30602<br>
+      Cami.Li@uga.edu
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-accent-bar"></div>
+    <div class="hero-grid-bg"></div>
+    <div class="hero-stat-grid">
+      <div class="hero-stat">
+        <div class="hero-stat-num">7+</div>
+        <div class="hero-stat-label">Active Research<br>Projects</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">CAV</div>
+        <div class="hero-stat-label">Full-scale<br>Testbed</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">LLM</div>
+        <div class="hero-stat-label">AI-Integrated<br>AV Research</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">UGA</div>
+        <div class="hero-stat-label">ECAM School<br>of Engineering</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESEARCH -->
+<section id="research">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2 class="section-title">Research Areas</h2>
+    <div class="section-rule"></div>
+  </div>
+
+  <div class="research-grid">
+    <div class="research-card">
+      <div class="research-tag">AI &amp; Autonomy</div>
+      <div class="research-card-title">Probing Large Language Models for Autonomous Driving Behavior</div>
+      <div class="research-card-body">Investigating how LLMs can be leveraged to interpret and navigate complex real-world driving scenarios, including edge cases and ambiguous traffic conditions.</div>
+    </div>
+    <div class="research-card">
+      <div class="research-tag">Autonomous Systems</div>
+      <div class="research-card-title">LLM-Assisted AV Recovery from Immobilization</div>
+      <div class="research-card-body">Developing AI-powered recovery protocols for autonomous vehicles that become stuck or immobilized in challenging on-road environments.</div>
+    </div>
+    <div class="research-card">
+      <div class="research-tag">Sustainability</div>
+      <div class="research-card-title">Mixed Wireless Charging Network Optimization for Electric Buses</div>
+      <div class="research-card-body">Optimizing the deployment and scheduling of wireless in-motion charging infrastructure to maximize fleet electrification efficiency for public transit.</div>
+    </div>
+    <div class="research-card">
+      <div class="research-tag">Sensing &amp; Safety</div>
+      <div class="research-card-title">LiDAR &amp; Camera Data Analytics for Traffic Safety Management</div>
+      <div class="research-card-body">Fusing multi-modal sensor data streams to detect safety-critical events, monitor vulnerable road users, and inform proactive traffic management decisions.</div>
+    </div>
+    <div class="research-card">
+      <div class="research-tag">Traffic Flow</div>
+      <div class="research-card-title">Autonomous Vehicle Interaction with Traffic Signs &amp; Flow Impacts</div>
+      <div class="research-card-body">Analyzing how AV compliance and decision-making at signalized and unsignalized intersections shapes macroscopic traffic flow dynamics at scale.</div>
+    </div>
+    <div class="research-card">
+      <div class="research-tag">Testbed Development</div>
+      <div class="research-card-title">Full-Scale &amp; Reduced-Scale CAV Testbed Development</div>
+      <div class="research-card-body">Building physical and digital testbed environments — from scaled model tracks to full-scale vehicle platforms — to validate connected and automated mobility algorithms.</div>
+    </div>
+    <div class="research-card">
+      <div class="research-tag">Infrastructure</div>
+      <div class="research-card-title">Infrastructure Evaluation for Autonomous Vehicles</div>
+      <div class="research-card-body">Assessing existing roadway infrastructure readiness for AV deployment and identifying upgrades needed to support safe, efficient autonomous operations.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PEOPLE -->
+<section id="people">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <h2 class="section-title">People</h2>
+    <div class="section-rule"></div>
+  </div>
+
+  <div class="pi-block">
+    <div class="pi-photo-frame">
+      <div class="pi-photo-placeholder">Q.L.</div>
+      <div class="pi-photo-corner"></div>
+    </div>
+    <div>
+      <div class="pi-title">Principal Investigator</div>
+      <h3 class="pi-name">Qianwen (Cami) Li</h3>
+      <a href="mailto:Cami.Li@uga.edu" class="pi-contact">Cami.Li@uga.edu · Boyd BREC 716B</a>
+
+      <p class="pi-bio">
+        Dr. Li is an Assistant Professor at the School of Environmental, Civil, Agricultural and Mechanical Engineering (ECAM) at the University of Georgia. Her research bridges artificial intelligence, transportation engineering, and smart infrastructure — with a focus on making automated mobility safer and more sustainable.
+      </p>
+
+      <div class="pi-section-label">Research Interests</div>
+      <div class="pi-interests">
+        <span class="pi-tag">Connected &amp; Automated Mobility</span>
+        <span class="pi-tag">Electric &amp; Shared Vehicles</span>
+        <span class="pi-tag">AI in Transportation</span>
+        <span class="pi-tag">Smart Infrastructure</span>
+        <span class="pi-tag">Traffic Flow Theory</span>
+      </div>
+
+      <div class="pi-section-label">Education</div>
+      <div class="edu-row">
+        <div class="edu-dot"></div>
+        <div class="edu-text">
+          <div class="edu-deg">Ph.D., Civil Engineering (Transportation)</div>
+          <div class="edu-school">University of South Florida · 2022</div>
+          <div class="edu-note">Milton Pikarsky Memorial Award — Best Doctoral Dissertation</div>
+        </div>
+      </div>
+      <div class="edu-row">
+        <div class="edu-dot"></div>
+        <div class="edu-text">
+          <div class="edu-deg">M.S., Civil Engineering (Transportation)</div>
+          <div class="edu-school">University of South Florida · 2020</div>
+          <div class="edu-note">Neville A. Parker Award — Best Master's Project Report</div>
+        </div>
+      </div>
+      <div class="edu-row">
+        <div class="edu-dot"></div>
+        <div class="edu-text">
+          <div class="edu-deg">B.S., Computer Science &amp; Technology</div>
+          <div class="edu-school">Shandong University · 2018</div>
+        </div>
+      </div>
+
+      <div class="pi-section-label">Appointments</div>
+      <div class="edu-row">
+        <div class="edu-dot"></div>
+        <div class="edu-text">
+          <div class="edu-deg">Assistant Professor — ECAM, University of Georgia</div>
+          <div class="edu-school">2023 – Present</div>
+        </div>
+      </div>
+      <div class="edu-row">
+        <div class="edu-dot"></div>
+        <div class="edu-text">
+          <div class="edu-deg">Assistant Research Professor — CUTR, University of South Florida</div>
+          <div class="edu-school">2022 – 2023</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEACHING -->
+<section id="teaching" style="background: var(--warm-gray); padding: 7rem 6rem;">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <h2 class="section-title">Teaching</h2>
+    <div class="section-rule"></div>
+  </div>
+
+  <div class="teaching-list">
+    <div class="teaching-item">
+      <div class="course-code">CVLE 8210</div>
+      <div>
+        <div class="course-name">Traffic Flow Theory</div>
+        <p class="course-desc">An in-depth exploration of highway traffic flow covering foundational concepts and a diversity of models. Examines traffic dynamics from both individual vehicle (microscopic) and overall traffic stream (macroscopic) viewpoints, offering insights into various traffic flow theories.</p>
+      </div>
+    </div>
+    <div class="teaching-item">
+      <div class="course-code">CVLE 8120</div>
+      <div>
+        <div class="course-name">Transportation Planning</div>
+        <p class="course-desc">Equips students with knowledge and skills to analyze, design, and implement effective transportation systems. Topics include land use, environmental impact, multimodal systems, and policy frameworks, with a focus on creating sustainable and equitable transportation solutions.</p>
+      </div>
+    </div>
+    <div class="teaching-item">
+      <div class="course-code">CVLE 4230/6230</div>
+      <div>
+        <div class="course-name">Transportation Safety</div>
+        <p class="course-desc">A comprehensive overview of transportation safety, focusing on key concepts, theories, and management strategies. Covers human factors and the behavior of vulnerable road users. Through a blend of theory and practical applications, students are equipped to improve transportation safety effectively.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- JOIN -->
+<section id="join" style="padding: 7rem 6rem;">
+  <div class="section-header">
+    <span class="section-num">04</span>
+    <h2 class="section-title">Join the Lab</h2>
+    <div class="section-rule"></div>
+  </div>
+
+  <div class="hiring-box">
+    <div>
+      <div class="hiring-title">Recruiting Ph.D. Students</div>
+      <p class="hiring-desc">
+        We are seeking highly motivated Ph.D. candidates to join the CAMIs Lab. Students with backgrounds in machine learning, optimization, and control theory are especially encouraged to apply. If you are interested, please send your CV, class ranking, and transcripts (undergraduate and graduate) to Dr. Li.
+      </p>
+      <div style="margin-top: 2rem;">
+        <a href="mailto:Cami.Li@uga.edu" class="btn-primary" style="display:inline-flex;">Apply via Email &rarr;</a>
+      </div>
+    </div>
+    <div style="position:relative; z-index:1; text-align:center;">
+      <div style="font-family: var(--serif); font-size: 1rem; color: rgba(255,255,255,0.4); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:0.75rem;">Location</div>
+      <div style="font-family: var(--mono); font-size: 0.78rem; color: rgba(255,255,255,0.55); line-height:1.9;">
+        Athens, Georgia<br>
+        University of Georgia<br>
+        ECAM Engineering
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">CAMIs</div>
+  <div>Cooperative Automated Mobility Innovations Lab · University of Georgia</div>
+  <div>Boyd BREC 702 · Athens, GA 30602</div>
+</footer>
+
+</body>
+</html>

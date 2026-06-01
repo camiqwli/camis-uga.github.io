@@ -76,15 +76,44 @@
 
     /* ── HERO ── */
     .hero {
-      min-height: 60vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       padding-top: 64px;
     }
 
     .hero-text {
-      padding: 5rem 6rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 5rem 4rem 5rem 6rem;
+    }
+
+    .hero-visual {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-badges {
+      position: absolute;
+      bottom: 1.5rem;
+      left: 1.5rem;
+      display: flex;
+      gap: 0.6rem;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(0,0,0,0.65);
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      padding: 0.45rem 0.9rem;
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255,255,255,0.15);
     }
 
     .hero-label {
@@ -294,10 +323,12 @@
     }
 
     .pi-avatar {
-      aspect-ratio: 3/4;
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
       background: var(--faint);
       overflow: hidden;
-      position: relative;
+      flex-shrink: 0;
     }
 
     .pi-avatar-placeholder {
@@ -611,7 +642,7 @@
 
       .hero { grid-template-columns: 1fr; min-height: auto; }
       .hero-text { padding: 5rem 2rem 3rem; }
-      .hero-visual { min-height: 320px; }
+      .hero-visual { min-height: 280px; }
 
       section { padding: 4rem 2rem; }
 
@@ -636,7 +667,9 @@
 
   <!-- NAV -->
   <nav>
-    <a href="#" class="nav-logo">CAMIs<span>.</span></a>
+    <a href="#" class="nav-logo">
+      <img src="CAMIs_sm.jpg" alt="CAMIs Lab" style="height:44px;width:auto;display:block;"/>
+    </a>
     <ul class="nav-links">
       <li><a href="#research">Research</a></li>
       <li><a href="#people">People</a></li>
@@ -648,6 +681,7 @@
   <div class="hero">
     <div class="hero-text">
       <p class="hero-label">University of Georgia · Athens, GA</p>
+      <img src="CAMIs_sm.jpg" alt="CAMIs Lab Logo" style="height:90px;width:auto;margin-bottom:1.5rem;"/>
       <h1 class="hero-title">
         Cooperative<br/>
         <em>Automated</em><br/>
@@ -657,6 +691,19 @@
       <p class="hero-desc">
         Advancing knowledge and technologies that enhance transportation safety, sustainability, and efficiency — bridging data, theory, and real-world practice.
       </p>
+    </div>
+    <div class="hero-visual">
+      <img src="AV.JPG" alt="CAMIs Lab autonomous vehicle" style="width:100%;height:100%;object-fit:cover;object-position:center;"/>
+      <div class="hero-badges">
+        <span class="hero-badge">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2"/><path d="M4 7l2 2 4-4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Fully Automated
+        </span>
+        <span class="hero-badge">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 2v4l2.5 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/></svg>
+          100% Electric
+        </span>
+      </div>
     </div>
   </div>
 
@@ -739,7 +786,7 @@
     </div>
     <div class="pi-card fade-in">
       <div class="pi-avatar">
-        <img src="QL.jpg" alt="Dr. Qianwen Li" style="width:100%;height:100%;object-fit:cover;object-position:top;"/>
+        <img src="QL.JPG" alt="Dr. Qianwen Li" style="width:100%;height:100%;object-fit:cover;object-position:top;"/>
       </div>
       <div>
         <p class="pi-title">Assistant Professor · ECAM, University of Georgia</p>
@@ -778,7 +825,7 @@
     <div class="students-grid fade-in">
 
       <div class="student-card">
-        <div class="student-avatar" style="width:52px;height:52px;border-radius:50%;overflow:hidden;flex-shrink:0;">
+        <div class="student-avatar" style="width:100px;height:100px;border-radius:50%;overflow:hidden;flex-shrink:0;">
           <img src="ZB.jpg" alt="Zhipeng Bao" style="width:100%;height:100%;object-fit:cover;object-position:top;"/>
         </div>
         <div class="student-info">
@@ -795,7 +842,7 @@
       </div>
 
       <div class="student-card">
-        <div class="student-avatar" style="width:52px;height:52px;border-radius:50%;overflow:hidden;flex-shrink:0;">
+        <div class="student-avatar" style="width:100px;height:100px;border-radius:50%;overflow:hidden;flex-shrink:0;">
           <img src="WZ.jpg" alt="Wenjie Zhao" style="width:100%;height:100%;object-fit:cover;object-position:top;"/>
         </div>
         <div class="student-info">
@@ -812,7 +859,7 @@
       </div>
 
       <div class="student-card">
-        <div class="student-avatar" style="width:52px;height:52px;border-radius:50%;overflow:hidden;flex-shrink:0;">
+        <div class="student-avatar" style="width:100px;height:100px;border-radius:50%;overflow:hidden;flex-shrink:0;">
           <img src="YL.png" alt="Yiping Li" style="width:100%;height:100%;object-fit:cover;object-position:top;"/>
         </div>
         <div class="student-info">
